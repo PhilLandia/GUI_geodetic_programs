@@ -28,11 +28,13 @@ class SoilLoadCalculator:
         for i in samples[borehole_num]:
             while round(j, 2) <= i[1]:
                 key = i[0]
+
                 p = data[key]
+                layer_name = p[4]
                 nach_lob.append((p[1] - p[0]) * rand.random() + p[0])
                 bok.append((p[3] - p[2]) * rand.random() + p[2])
-                row = {'Слой': key, 'Глубина': round(j, 2), 'Нач.лоб': nach_lob[-1], 'Бок.лоб': bok[-1],
-                       'Коэф_Глубины': self.friction_coefficient(j)}
+                row = {'Слой': key,'Имя_слоя': layer_name, 'Глубина': round(j, 2), 'Нач.лоб': nach_lob[-1],
+                       'Бок.лоб': bok[-1], 'Коэф_Глубины': self.friction_coefficient(j)}
                 data_list.append(row)
                 j += 0.05
         nach_lob.clear()
@@ -79,7 +81,7 @@ class SoilLoadCalculator:
 
     def round_values(self, row, column_name, number, ugv_data):
         value = row[column_name]
-        if row['Глубина'] > ugv_data[number] and 'песок' in row['Слой']:
+        if row['Глубина'] > ugv_data[number] and 'песок' in row['Имя_слоя']:
             return round(value * 1.1, 2)
         return round(value, 2)
 
